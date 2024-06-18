@@ -1,0 +1,29 @@
+replicaCount: 3
+
+image:
+  repository: mariadb
+  tag: "10.5"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 3306
+
+persistence:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  size: 10Gi
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: []
+
+mysqlRootPassword: "root_password"
+mysqlDatabase: "testdb"
+mysqlUser: "testuser"
+mysqlPassword: "testpassword"
