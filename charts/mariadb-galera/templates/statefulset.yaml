@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "charts.fullname" . }}
+  name: {{ include "mariadb-galeria.fullname" . }}
 spec:
   selector:
     matchLabels:
-      app: {{ include "charts.fullname" . }}
-  serviceName: "{{ include "charts.fullname" . }}-headless"
+      app: {{ include "mariadb-galeria.fullname" . }}
+  serviceName: "{{ include "mariadb-galeria.fullname" . }}-headless"
   replicas: {{ .Values.replicaCount }}
   template:
     metadata:
       labels:
-        app: {{ include "charts.fullname" . }}
+        app: {{ include "mariadb-galeria.fullname" . }}
     spec:
       containers:
-      - name: charts
+      - name: mariadb-galeria
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         ports:
         - containerPort: {{ .Values.service.port }}
@@ -28,24 +28,24 @@ spec:
           value: {{ .Values.mysqlUser | quote }}
         - name: MYSQL_PASSWORD
           value: {{ .Values.mysqlPassword | quote }}
-        - name: charts_GALERA_CLUSTER_BOOTSTRAP
+        - name: MARIA_DB_GALERA_CLUSTER_BOOTSTRAP
           value: "yes"
-        - name: charts_GALERA_CLUSTER_ADDRESS
-          value: "gcomm://{{ include "charts.fullname" . }}-0.{{ include "charts.fullname" . }}-headless.default.svc.cluster.local,{{ include "charts.fullname" . }}-1.{{ include "charts.fullname" . }}-headless.default.svc.cluster.local,{{ include "charts.fullname" . }}-2.{{ include "charts.fullname" . }}-headless.default.svc.cluster.local"
-        - name: charts_GALERA_NODE_ADDRESS
+        - name: MARIA_DB_GALERA_CLUSTER_ADDRESS
+          value: "gcomm://{{ include "mariadb-galeria.fullname" . }}-0.{{ include "mariadb-galeria.fullname" . }}-headless.default.svc.cluster.local,{{ include "mariadb-galeria.fullname" . }}-1.{{ include "mariadb-galeria.fullname" . }}-headless.default.svc.cluster.local,{{ include "mariadb-galeria.fullname" . }}-2.{{ include "mariadb-galeria.fullname" . }}-headless.default.svc.cluster.local"
+        - name: MARIA_DB_GALERA_NODE_ADDRESS
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
         volumeMounts:
-        - name: charts-persistent-storage
+        - name: mariadb-persistent-storage
           mountPath: /var/lib/mysql
       volumes:
-      - name: charts-persistent-storage
+      - name: mariadb-galeria-persistent-storage
         persistentVolumeClaim:
-          claimName: charts-pvc
+          claimName: mariadb-pvc
   volumeClaimTemplates:
   - metadata:
-      name: charts-persistent-storage
+      name: mariadb-persistent-storage
     spec:
       accessModes: {{ .Values.persistence.accessModes }}
       resources:

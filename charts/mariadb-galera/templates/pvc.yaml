@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: mariadb-pvc
   labels:
-    app: {{ include "charts.fullname" . }}
+    app: {{ include "mariadb-galeria.fullname" . }}
 spec:
   accessModes: {{ .Values.persistence.accessModes }}
   resources:
