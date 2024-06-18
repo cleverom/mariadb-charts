@@ -1,0 +1,8 @@
+apiVersion: v2
+name: mariadb-galera
+description: A Helm chart for MariaDB Galera Cluster
+version: 0.1.0
+appVersion: "10.5"
+maintainers:
+    - name: clever
+      email: cleveromo@gmail.com
