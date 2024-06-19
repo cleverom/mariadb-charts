@@ -12,3 +12,54 @@ jobs:
             - GITHUB_PAGES_REPO: cleverom/db-charts
             - GITHUB_PAGES_BRANCH: gh-pages
             - HELM_VERSION: 3.4.2
+
+  setup:
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - setup_remote_docker:
+          version: 19.03.12
+      - run:
+          name: Install kubectl
+          command: |
+            curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+            chmod +x ./kubectl
+            sudo mv ./kubectl /usr/local/bin/kubectl
+      - run:
+          name: Install Helm
+          command: |
+            curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+      - run:
+          name: Install yq
+          command: |
+            sudo pip install yq
+
+    deploy:
+      docker:
+        - image: alpine
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+        - name: Deploy to Cloud Platform
+          run: ./deploy.sh
+          env:
+            CLOUD_PLATFORM: ${{ secrets.CLOUD_PLATFORM }}
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+            GCP_KEY_FILE: ${{ secrets.GCP_KEY_FILE }}
+            AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+            AZURE_SECRET: ${{ secrets.AZURE_SECRET }}
+            AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+            AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+
+workflows:
+  version: 2
+  setup-build-deploy:
+    jobs:
+      - build
+      - setup
+      # - deploy:
+      #     requires:
+      #       - build
+      #       - setup
