@@ -41,25 +41,27 @@ jobs:
         - name: Checkout code
           uses: actions/checkout@v2
         - name: Deploy to Cloud Platform
-          run: ./deploy.sh
-          env:
+        - run: 
+           name: 
+           command: | 
+            export CHARTNAME="mariadb-galera"
+            ./deploy.sh $CHARTNAME
+          env: 
             CLOUD_PLATFORM: ${{ secrets.CLOUD_PLATFORM }}
-            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
             GCP_KEY_FILE: ${{ secrets.GCP_KEY_FILE }}
-            AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-            AZURE_SECRET: ${{ secrets.AZURE_SECRET }}
-            AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-            AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
 workflows:
   version: 2
-  setup-build-deploy:
+  pipeline:
     jobs:
-      - build
-      - setup
-      # - deploy:
-      #     requires:
-      #       - build
-      #       - setup
+    - build:
+       context: credentials
+    - setup:
+        context: credentials
+        requires:
+          - build
+    # - deploy:
+    #     context: credentials
+    #     requires:
+    #       - setup
