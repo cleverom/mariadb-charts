@@ -46,10 +46,6 @@ jobs:
            command: | 
             export CHARTNAME="mariadb-galera"
             ./deploy.sh $CHARTNAME
-          env: 
-            CLOUD_PLATFORM: ${{ secrets.CLOUD_PLATFORM }}
-            GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-            GCP_KEY_FILE: ${{ secrets.GCP_KEY_FILE }}
 
 workflows:
   version: 2

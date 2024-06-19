@@ -14,6 +14,14 @@ namespace="default"
 WORKING_DIRECTORY="$PWD"
 CHARTNAME=$1
 
+HELM_DIRECTORY="${WORKING_DIRECTORY}/helm"
+
+valuesfile="${HELM_DIRECTORY}/dbvalues.yaml"
+cluster_zone=${GOOGLE_COMPUTE_ZONE}
+cluster_name=${GOOGLE_CLUSTER_NAME}
+project_id=${GOOGLE_PROJECT_ID}
+service_key=${GCLOUD_SERVICE_KEY}
+
 echo "Deploying service: ${CHARTNAME}"
 
 echo "Using namespace: $namespace"
