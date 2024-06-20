@@ -15,7 +15,13 @@ persistence:
     - ReadWriteOnce
   size: 10Gi
 
-resources: {}
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "500m"
+  limits:
+    memory: "1Gi"
+    cpu: "1"
 
 nodeSelector: {}
 

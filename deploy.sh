@@ -11,12 +11,8 @@ echo export BACKTICK=\\\` >> $BASH_ENV
 source $BASH_ENV
 namespace="default"
 
-WORKING_DIRECTORY="$PWD"
 CHARTNAME=$1
 
-HELM_DIRECTORY="${WORKING_DIRECTORY}/helm"
-
-valuesfile="${HELM_DIRECTORY}/dbvalues.yaml"
 cluster_zone=${GOOGLE_COMPUTE_ZONE}
 cluster_name=${GOOGLE_CLUSTER_NAME}
 project_id=${GOOGLE_PROJECT_ID}
@@ -40,6 +36,6 @@ echo "Adding Mariadb Helm Repo..."
 helm repo add cleverom https://github.com/cleverom/db-charts.git
 helm repo update
 
-helm upgrade -i $CHARTNAME cleverom/$CHARTNAME --namespace $namespace  -f $valuesfile
+helm upgrade -i $CHARTNAME cleverom/$CHARTNAME --namespace $namespace
    
 #EOF
