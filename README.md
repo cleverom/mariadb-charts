@@ -8,17 +8,16 @@ This repository contains Helm charts and CircleCI workflows for deploying a Mari
 │   └── config.yml
 ├── charts
 │   └── mariadb-galera
-│   |    ├── Chart.yaml
-│   |    ├── templates
-│   |    │   ├── _helpers.tpl
-│   |    │   ├── pvc.yaml
-│   |    │   ├── service-headless.yaml
-│   |    │   ├── service.yaml
-│   |    │   └── statefulset.yaml
-│   |    └── values.yaml
-│   ├── publish.sh
-│   └── deploy.sh
-└── README.md
+│       ├── Chart.yaml
+│       ├── templates
+│       │   ├── _helpers.tpl
+│       │   ├── pvc.yaml
+│       │   ├── service-headless.yaml
+│       │   ├── service.yaml
+│       │   └── statefulset.yaml
+│       └── values.yaml
+├── publish.sh
+└── deploy.sh
 
 ## Prerequisites
 
