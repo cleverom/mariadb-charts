@@ -39,7 +39,7 @@ The Helm chart is located in the `charts/mariadb-galera` directory. The chart in
 - `templates/service.yaml`: Service template.
 - `templates/statefulset.yaml`: StatefulSet template.
 
-char repo: [](https://github.com/cleverom/db-charts/tree/gh-pages)
+char repo: ![db-charts-repo](https://github.com/cleverom/db-charts/tree/gh-pages)
 
 ## Why Helm Charts was used
 
