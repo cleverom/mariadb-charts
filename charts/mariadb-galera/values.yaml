@@ -6,8 +6,10 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 3306
+  loadBalancer:
+    enabled: true
 
 persistence:
   enabled: true

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "mariadb-galeria.fullname" . }}
+  name: {{ include "mariadb-galeria.fullname" . }}-loadbalancer
   labels:
     app: {{ include "mariadb-galeria.fullname" . }}
 spec:

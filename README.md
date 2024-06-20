@@ -75,10 +75,17 @@ Portability
 
 ## Notes and Explanation
 
-- StatefulSet: The StatefulSet ensures that each MariaDB instance has a stable network identity and persistent storage. The MARIA_DB_GALERA_CLUSTER_ADDRESS environment variable configures the Galera cluster to know the addresses of all nodes in the cluster.
+- StatefulSet: The StatefulSet ensures stable network identities and persistent storage for each pod. This is crucial for the Galera cluster as each node (pod) must be able to reconnect to the cluster using a stable identity.
+
+- Environment Variables:
+  - MARIA_DB_GALERA_CLUSTER_BOOTSTRAP is set to yes to indicate the cluster initialization.
+  - MARIA_DB_GALERA_CLUSTER_ADDRESS provides the addresses of the other nodes in the cluster, ensuring they can connect and form the cluster.
+  - MARIA_DB_GALERA_NODE_ADDRESS dynamically assigns the pod's IP address, ensuring each node can be uniquely identified in the cluster.
+
+- Persistent Storage: The volumeMounts and volumeClaimTemplates ensure that each MariaDB instance has persistent storage, which is critical for maintaining data consistency across reboots and failures.
 
 - Headless Service: The headless service enables the StatefulSet pods to communicate with each other using DNS, essential for Galera clustering.
 
 - ClusterIP Service: This service exposes the MariaDB cluster internally within the Kubernetes cluster, enabling other services to connect to the MariaDB cluster using a single endpoint.
 
-- Persistent Volume Claim: The PVC ensures that each MariaDB instance has dedicated storage, preserving data across pod restarts.
+- Resource Requests and Limits: Specifying resource requests and limits for CPU and memory ensures that each MariaDB instance has sufficient resources to operate efficiently and avoid resource contention.
